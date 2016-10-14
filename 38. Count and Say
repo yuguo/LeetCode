@@ -1,0 +1,28 @@
+/**
+ * @param {number} n
+ * @return {string}
+ */
+var countAndSay = function(n) {
+    var currentArray = ['1'], // init
+        tempArray,
+        k;
+    for(var i = 2; i <= n; i++){ //n loop
+        tempArray = [];
+        k = undefined;
+        for(var j = 0; j < currentArray.length; j++){ // string loop
+            if(parseInt(tempArray[k+1]) !== parseInt(currentArray[j])){ // 1st show
+                k = k + 2 || 0;
+                tempArray[k] = 1;
+                tempArray[k+1] = currentArray[j];
+            }else{ 
+                tempArray[k]++;
+            }
+        }
+        currentArray = tempArray;
+    }
+    return currentArray.join('');
+};
+
+// 很有意思的一个题目，想到的是递归或者for循环
+// for循环性能好点（免除了调用函数的开销），所以采用这种方案
+// 二级for循环统计出现次数的时候，用了一个tempArray，数组的查询很方便，而且join比直接操作字符串更快
