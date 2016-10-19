@@ -33,15 +33,41 @@
 
 ## 关于 array 的性能优化Tips
 
-V8 Array is Fast, VERY FAST
-Array push / pop / shift is ~approx 20x+ faster than any object equivalent.
-Surprisingly Array.shift() is fast ~approx 6x slower than an array pop, but is ~approx 100x faster than an object attribute deletion.
-Amusingly, Array.push( data ); is faster than Array[nextIndex] = data by almost 20 (dynamic array) to 10 (fixed array) times over.
-Array.unshift(data) is slower as expected, and is ~approx 5x slower than a new property adding.
-Nulling the value array[index] = null is faster than deleting it delete array[index] (undefined) in an array by ~approx 4x++ faster.
-Surprisingly Nulling a value in an object is obj[attr] = null ~approx 2x slower than just deleting the attribute delete obj[attr]
-Unsurprisingly, mid array Array.splice(index,0,data) is slow, very slow.
-Surprisingly, Array.splice(index,1,data) has been optimized (no length change) and is 100x faster than just splice Array.splice(index,0,data)
-unsurprisingly, the divLinkedList is inferior to an array on all sectors, except dll.splice(index,1) removal (Where it broke the test system).
-BIGGEST SURPRISE of it all [as jjrv pointed out], V8 array writes are slightly faster than V8 reads =O
+- V8 Array is Fast, VERY FAST
+- Array push / pop / shift is ~approx 20x+ faster than any object equivalent.
+- Surprisingly Array.shift() is fast ~approx 6x slower than an array pop, but is ~approx 100x faster than an object attribute deletion.
+- Amusingly, Array.push( data ); is faster than Array[nextIndex] = data by almost 20 (dynamic array) to 10 (fixed array) times over.
+- Array.unshift(data) is slower as expected, and is ~approx 5x slower than a new property adding.
+- Nulling the value array[index] = null is faster than deleting it delete array[index] (undefined) in an array by ~approx 4x++ faster.
+- Surprisingly Nulling a value in an object is obj[attr] = null ~approx 2x slower than just deleting the attribute delete obj[attr]
+- Unsurprisingly, mid array Array.splice(index,0,data) is slow, very slow.
+- Surprisingly, Array.splice(index,1,data) has been optimized (no length change) and is 100x faster than just splice Array.splice(index,0,data)
+- unsurprisingly, the divLinkedList is inferior to an array on all sectors, except dll.splice(index,1) removal (Where it broke the test system).
+- BIGGEST SURPRISE of it all [as jjrv pointed out], V8 array writes are slightly faster than V8 reads =O
 
+## 关于 Number 的解题 Tips
+
+LeetCode 最初是基于 C 等底层语言设置题目，在计算数字的时候，基于 Int32 最高是 2^32 ，也就是最大正值是2147483647，最小负值是 -2147483648。
+
+而在 JavaScript 中，最大的整数是 2^52：
+
+> Any whole number less than 2^52 (which is more than 10^15) will safely fit in a JavaScript number.
+
+Number 并不是强类型，这种类型使用IEEE754格式来表示整数和浮点数值：
+
+> As it mentions, numbers are represented as a 64-bit floating-point number, with 53 bits of mantissa (significant digits) and 11 bits for the exponent (IEEE 754). The result is then obtained with: mantissa * 2^exponent.
+
+简单的说，Number 能够表示的数字比 Int32 更高。
+
+## 关于 String 的解题 Tips
+
+关于 String 使用正则表达式，或者 `splite` 和 `join` 等方法哪个性能更好，这取决于解释器。
+
+```
+str.split('0').join('');
+str.replace(/0/g, ');
+```
+
+> I've had to optimize a lot of string munging while working on MXHR and in my experience, plain String methods are significantly faster than RegExps in current browsers. **Use RegExps on the shortest Strings possible and do everything you possibly can with String methods**.  https://jsperf.com/split-join-vs-regex-replace
+
+目前看来，性能上并无明显差别。
