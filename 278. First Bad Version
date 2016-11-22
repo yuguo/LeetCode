@@ -1,0 +1,19 @@
+var solution = function(isBadVersion) {
+    /**
+     * @param {integer} n Total versions
+     * @return {integer} The first bad version
+     */
+    return function(n) {
+        let before = 1,
+            after = n;
+        while(before < after){
+            let mid = before + parseInt((after - before) / 2);
+            if(!isBadVersion(mid)){
+                before = mid + 1;
+            }else {
+                after = mid;
+            }
+        }
+        return before;
+    };
+};
