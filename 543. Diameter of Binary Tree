@@ -1,0 +1,28 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+
+var diameterOfBinaryTree = function(root) {
+     // 在dfs的过程中，用一个外部变量保存当前的最大左手臂+右手臂的和
+    var maxDiameter = 0;
+    
+    var dfs = function(root){
+        if(root === null) return 0;
+        let leftDepth = dfs(root.left);
+        let rightDepth = dfs(root.right);
+        maxDiameter = leftDepth + rightDepth > maxDiameter ? leftDepth + rightDepth : maxDiameter;
+        
+        return Math.max(leftDepth, rightDepth) + 1;
+    }
+
+    dfs(root);
+    return maxDiameter
+};
