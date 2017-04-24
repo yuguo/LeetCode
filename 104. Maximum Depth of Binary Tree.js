@@ -18,3 +18,10 @@ var maxDepth = function(root) {
     
     return maxLeft > maxRight ? maxLeft + 1 : maxRight + 1;
 };
+
+// 以下是经过简化的代码：
+// 好像太短了也不清晰……
+
+var maxDepth = function(root) {
+    return root === null? 0 : Math.max.call(Math, maxDepth(root.left), maxDepth(root.right))+1;
+};
