@@ -29,3 +29,19 @@ var minDepth = function(root) {
     
     return Math.min.apply(Math, array); 
 };
+
+
+// 以下是使用递归写的更简洁的算法
+
+var minDepth = function(root) {
+    if(root === null){
+        return 0;
+    }else{
+        if(root.left === null || root.right === null){
+            return Math.max.call(Math, minDepth(root.left), minDepth(root.right)) + 1;
+        }else{
+            return Math.min.call(Math, minDepth(root.left), minDepth(root.right)) + 1; 
+        }
+    }
+    
+};
