@@ -21,3 +21,13 @@ var invertTree = function(root) {
     return root;
 };
 
+// 使用ECMAScript 6的解构来简写一下代码：
+
+var invertTree = function(root) {
+    if(root === null){
+        return root;
+    }else{
+        [root.left, root.right] = [invertTree(root.right), invertTree(root.left)];
+        return root;
+    }
+};
