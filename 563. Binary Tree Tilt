@@ -1,0 +1,20 @@
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+ 
+ // 用了两层递归，感觉不满意，以后看看怎么优化
+var findTilt = function(root) {
+    if(root === null){
+        return 0;
+    }
+    let thisTilt = Math.abs(calTotal(root.left) - calTotal(root.right));
+    return thisTilt + findTilt(root.left) + findTilt(root.right);
+};
+
+var calTotal = function(root){
+    if(root === null){
+        return 0;
+    }
+    return calTotal(root.left) + calTotal(root.right) + root.val;
+}
