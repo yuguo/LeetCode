@@ -1,0 +1,12 @@
+var reverseStr = function(s, k) {
+    let index = 0, l = s.length - 1, result = '';
+    while(index <= l){
+        result = result + revStr(s.substr(index, k)) + s.substr(index + k, k);
+        index += k * 2;
+    }
+    return result;
+};
+
+function revStr(s){
+    return s.split('').reverse().join('');
+}
