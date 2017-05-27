@@ -37,3 +37,29 @@ var isVowel = function(char){
     }
     return false;
 };
+
+// 第二次写：简化了代码量
+
+var reverseVowels = function(s) {
+    let i = 0, j = s.length - 1, vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+    while(i < j){
+        if(vowels.indexOf(s.charAt(i)) != -1) {
+            while(j > i){
+                if(vowels.indexOf(s.charAt(j)) != -1){
+                    s = switchChar(s, i, j);
+                    j--;
+                    break;
+                }
+                j--;
+            }
+        }
+        i++;
+    }
+    return s;
+};
+
+function switchChar(s, i, j){
+    let a = s.charAt(i),
+        b = s.charAt(j);
+    return s.slice(0, i) + b + s.slice(i+1, j) + a + s.slice(j+1);
+}
